@@ -58,7 +58,7 @@
 
   (단위: K, 10.65GHz~89.0GHz)
 
-<img src="https://user-images.githubusercontent.com/57663398/81795047-9d728980-9546-11ea-917c-03d3689fa02b.png" align="left" width="250" height="250"> <img src="C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200513135738052.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795270-e591ac00-9546-11ea-88b6-6adbd1e90fb3.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795457-1a9dfe80-9547-11ea-8f8e-a70db69af821.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795593-3f927180-9547-11ea-896f-6618d684be18.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795671-546f0500-9547-11ea-910f-bc8022f6e713.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795737-68b30200-9547-11ea-8e9e-f517b16d01a0.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795804-7cf6ff00-9547-11ea-8468-ba901e8a5ed5.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795847-90a26580-9547-11ea-9c58-59c62333cf39.png" align="left" width="250" height="250">   
+<img src="https://user-images.githubusercontent.com/57663398/81795047-9d728980-9546-11ea-917c-03d3689fa02b.png" align="left" width="250" height="250"> <img src="https://user-images.githubusercontent.com/57663398/81796888-01964d00-9549-11ea-93da-496d402e2002.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795270-e591ac00-9546-11ea-88b6-6adbd1e90fb3.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795457-1a9dfe80-9547-11ea-8f8e-a70db69af821.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795593-3f927180-9547-11ea-896f-6618d684be18.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795671-546f0500-9547-11ea-910f-bc8022f6e713.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795737-68b30200-9547-11ea-8e9e-f517b16d01a0.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795804-7cf6ff00-9547-11ea-8468-ba901e8a5ed5.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795847-90a26580-9547-11ea-9c58-59c62333cf39.png" align="left" width="250" height="250">   
 
 
 
@@ -100,7 +100,7 @@
 
 
 
-**4.2.2. 지표면 유형(10 column) **
+##### **4.2.2. 지표면 유형(10 column) **
 
   (지표 타입 (앞자리 0: Ocean, 앞자리 1: Land, 앞자리 2: Coastal, 앞자리 3: Inland))
 
@@ -110,7 +110,7 @@
 
 
 
-**4.2.3. GMI, DPR 위도/경도(11 ~ 14 column) **
+##### **4.2.3. GMI, DPR 위도/경도(11 ~ 14 column) **
 
 ![image-20200513141351632](https://user-images.githubusercontent.com/57663398/81795923-b16abb00-9547-11ea-9350-51ad4ae2ad2e.png) ![image-20200513141407568](https://user-images.githubusercontent.com/57663398/81795931-b3347e80-9547-11ea-9480-01a51160b38f.png)
 
@@ -118,7 +118,7 @@
 
 
 
-**4.2.3. 강수량, mm/h (15 column) **
+##### **4.2.4. 강수량, mm/h (15 column) **
 
 ![image-20200513141700320](https://user-images.githubusercontent.com/57663398/81796045-da8b4b80-9547-11ea-826d-29f17376e876.png)
 
