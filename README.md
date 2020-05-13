@@ -2,7 +2,7 @@
 
 
 
-![image-20200513130152223](C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200513130152223.png)
+![image-20200513130152223](https://user-images.githubusercontent.com/57663398/81794699-20471480-9546-11ea-8734-8c38de3c89cb.png)
 
 
 
@@ -58,7 +58,7 @@
 
   (단위: K, 10.65GHz~89.0GHz)
 
-<img src="C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200513134743056.png" align="left" width="250" height="250"> <img src="C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200513135738052.png" align="left" width="250" height="250">   <img src="C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200513135815173.png" align="left" width="250" height="250">   <img src="C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200513135846908.png" align="left" width="250" height="250">   <img src="C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200513135942267.png" align="left" width="250" height="250">   <img src="C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200513140031725.png" align="left" width="250" height="250">   <img src="C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200513140120931.png" align="left" width="250" height="250">   <img src="C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200513140209763.png" align="left" width="250" height="250">   <img src="C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200513140322059.png" align="left" width="250" height="250">   
+<img src="https://user-images.githubusercontent.com/57663398/81795047-9d728980-9546-11ea-917c-03d3689fa02b.png" align="left" width="250" height="250"> <img src="C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200513135738052.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795270-e591ac00-9546-11ea-88b6-6adbd1e90fb3.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795457-1a9dfe80-9547-11ea-8f8e-a70db69af821.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795593-3f927180-9547-11ea-896f-6618d684be18.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795671-546f0500-9547-11ea-910f-bc8022f6e713.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795737-68b30200-9547-11ea-8e9e-f517b16d01a0.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795804-7cf6ff00-9547-11ea-8468-ba901e8a5ed5.png" align="left" width="250" height="250">   <img src="https://user-images.githubusercontent.com/57663398/81795847-90a26580-9547-11ea-9c58-59c62333cf39.png" align="left" width="250" height="250">   
 
 
 
@@ -104,7 +104,7 @@
 
   (지표 타입 (앞자리 0: Ocean, 앞자리 1: Land, 앞자리 2: Coastal, 앞자리 3: Inland))
 
-![image-20200513141024335](C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200513141024335.png)
+![image-20200513141024335](https://user-images.githubusercontent.com/57663398/81795886-a1eb7200-9547-11ea-8032-0beb43698872.png)
 
 
 
@@ -112,15 +112,15 @@
 
 **4.2.3. GMI, DPR 위도/경도(11 ~ 14 column) **
 
-![image-20200513141351632](C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200513141351632.png) ![image-20200513141407568](C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200513141407568.png)
+![image-20200513141351632](https://user-images.githubusercontent.com/57663398/81795923-b16abb00-9547-11ea-9350-51ad4ae2ad2e.png) ![image-20200513141407568](https://user-images.githubusercontent.com/57663398/81795931-b3347e80-9547-11ea-9480-01a51160b38f.png)
 
-![image-20200513141441563](C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200513141441563.png) ![image-20200513141501604](C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200513141501604.png)
+![image-20200513141441563](https://user-images.githubusercontent.com/57663398/81795934-b465ab80-9547-11ea-9b68-f7e07fec4da9.png) ![image-20200513141501604](https://user-images.githubusercontent.com/57663398/81795940-b6c80580-9547-11ea-88d1-fe3c1b8e6c9a.png)
 
 
 
 **4.2.3. 강수량, mm/h (15 column) **
 
-![image-20200513141700320](C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200513141700320.png)
+![image-20200513141700320](https://user-images.githubusercontent.com/57663398/81796045-da8b4b80-9547-11ea-826d-29f17376e876.png)
 
 
 
@@ -148,13 +148,13 @@
 
 #### **4.4.1. 평가지표**
 
-![image-20200513174740897](C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200513174740897.png)
+![image-20200513174740897](https://user-images.githubusercontent.com/57663398/81796079-e70fa400-9547-11ea-9d17-73d825e98f19.png)
 
 
 
   밸런스 한 데이터 일 때는 정확도를 사용 하는 것이 간단하면서 효과적입니다. 하지만 데이터 세트가 밸런스 하지 않은 데이터는 F1 스코어 를 사용하는 것이 좋은 모델을 고르는데 도움이 됩니다. 
 
-![image-20200513174918894](C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200513174918894.png)
+![image-20200513174918894](https://user-images.githubusercontent.com/57663398/81796099-eecf4880-9547-11ea-9db6-6443b10fa24b.png)
 
   그래서 지도학습방법의 결과를 측정하기 위해 MAE/F1 score 를 이용합니다. 의사결정을 위한 모델의 성능을 측정하기 위한 방법으로 정확도(Accuracy), 정밀도 (Precision), 재현율(Recall)을 많이 사용합니다. 먼저 2*2 매트릭스인 오차행렬 (Confusion Matrix)을 이용하여 올바른 것과 올바르지 않은것을 구분합니다.  그후 두 경우를 참과 거짓으로 표현하며 TP(True Positive), TN(True Negative), FP(False Positive), FN(False Negative)으로 구분합니다.
 
