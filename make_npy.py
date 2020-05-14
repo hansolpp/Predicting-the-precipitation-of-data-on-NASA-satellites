@@ -6,8 +6,6 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # 사용할 데이터 col
-# 10 이랑 14 중에 최적이 어느것인지 확인 중 -> 10이 나은거 같음
-# 별 차이 없으면 10 씀
 my_col = 10
 
 # 강우량 리스트
@@ -43,6 +41,7 @@ def make_npy():
     eighty_five_to_ninety_count = 0
     ninety_to_ninety_five_count = 0
     ninety_five_to_hundred_count = 0
+
     hundred_to_hundred_five_count = 0
     hundred_five_to_hundred_ten_count = 0
     hundred_ten_to_hundred_fifteen_count = 0
@@ -62,7 +61,13 @@ def make_npy():
     hundred_eighty_to_hundred_eighty_five_count = 0
     hundred_eighty_five_to_hundred_ninety_count = 0
     hundred_ninety_to_hundred_ninety_five_count = 0
-    hundred_ninety_five_to_hundred_two_hundred_count = 0
+    hundred_ninety_five_to_two_hundred_count = 0
+
+    two_hundred_to_two_hundred_five_count = 0
+    two_hundred_five_to_two_hundred_ten_count = 0
+    two_hundred_ten_to_two_hundred_fifteen_count = 0
+    two_hundred_fifteen_to_two_hundred_twenty_count = 0
+    two_hundred_twenty_to_two_hundred_twenty_five_count = 0
 
 
     for npy_file in train_files:
@@ -322,10 +327,42 @@ def make_npy():
             hundred_ninety_to_hundred_ninety_five_count += 1
 
         # 195 <= sum < 200
-        elif 195 <= target.sum() < 200 and hundred_ninety_five_to_hundred_two_hundred_count < common_count:
-            save_path = 'sum_hundred_ninety_five_to_hundred_two_hundred/'
+        elif 195 <= target.sum() < 200 and hundred_ninety_five_to_two_hundred_count < common_count:
+            save_path = 'sum_hundred_ninety_five_to_two_hundred/'
             np.save(common_save_path + save_path + real_file_name, target)
-            hundred_ninety_five_to_hundred_two_hundred_count += 1
+            hundred_ninety_five_to_two_hundred_count += 1
+
+        # 200 <= sum < 205
+        elif 200 <= target.sum() < 205 and two_hundred_to_two_hundred_five_count < common_count:
+            save_path = 'sum_two_hundred_to_two_hundred_five/'
+            np.save(common_save_path + save_path + real_file_name, target)
+            two_hundred_to_two_hundred_five_count += 1
+
+        # 205 <= sum < 210
+        elif 205 <= target.sum() < 210 and two_hundred_five_to_two_hundred_ten_count < common_count:
+            save_path = 'sum_two_hundred_five_to_two_hundred_ten/'
+            np.save(common_save_path + save_path + real_file_name, target)
+            two_hundred_five_to_two_hundred_ten_count += 1
+
+        # 210 <= sum < 215
+        elif 210 <= target.sum() < 215 and two_hundred_ten_to_two_hundred_fifteen_count < common_count:
+            save_path = 'sum_two_hundred_ten_to_two_hundred_fifteen/'
+            np.save(common_save_path + save_path + real_file_name, target)
+            two_hundred_ten_to_two_hundred_fifteen_count += 1
+
+        # 215 <= sum < 220
+        elif 215 <= target.sum() < 220 and two_hundred_fifteen_to_two_hundred_twenty_count < common_count:
+            save_path = 'sum_two_hundred_fifteen_to_two_hundred_twenty/'
+            np.save(common_save_path + save_path + real_file_name, target)
+            two_hundred_fifteen_to_two_hundred_twenty_count += 1
+
+        # 220 <= sum < 225
+        elif 220 <= target.sum() < 225 and two_hundred_twenty_to_two_hundred_twenty_five_count < common_count:
+            save_path = 'sum_two_hundred_twenty_to_two_hundred_twenty_five/'
+            np.save(common_save_path + save_path + real_file_name, target)
+            two_hundred_twenty_to_two_hundred_twenty_five_count += 1
+
+
 
         # 강수량 데이터 분포를 알기위해
         rain_list.append(target.sum())
