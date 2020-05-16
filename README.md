@@ -116,6 +116,10 @@
 
   
 
+​     
+
+​    
+
 ##### 4.2.2. 지표면 유형(10 column)
 
   (지표 타입 (앞자리 0: Ocean, 앞자리 1: Land, 앞자리 2: Coastal, 앞자리 3: Inland))
@@ -153,6 +157,8 @@
 ### **4.4. 분석 방법**
 
 #### **4.4.1. U-net**
+
+![image](https://user-images.githubusercontent.com/57663398/82112716-84f2b100-978a-11ea-8b98-1b1ddfdd7a2d.png)
 
   U-Net은 Biomedical 분야에서 이미지 분할(Image Segmentation)을 목적으로 제안된 End-to-End 방식의 Fully-Convolutional Network 기반 모델입니다. U-Net은 FCNs보다 확장된 개념의 Up-sampling과 Skip Architecture를 적용한 모델을 제안하고 있습니다. 결과적으로 U-Net의 구조는 아주 적은 양의 학습 데이터만으로 Data Augmentation을 활용하여 여러 Biomedical Image Segmentation 문제에서 우수한 성능을 보여주어 현재 연구에 적용하려 합니다.
 
