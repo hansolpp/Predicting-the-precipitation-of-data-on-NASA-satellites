@@ -11,7 +11,7 @@ from sklearn.metrics import f1_score
 from tensorflow.keras import Model
 import warnings
 
-from Models import build_model, my_model
+from Models import resnet_model, unet_model
 
 warnings.filterwarnings("ignore")
 
@@ -41,12 +41,9 @@ rain_list = []
 
 #################################################################
 def trainGenerator():
-    train_path = './train/train'
+    train_path = './train/real_train'
     train_files = sorted(glob.glob(train_path + '/*'))
-    # 10000개의 데이터만 우선 학습할거야
-    # 50850이 최적
-    # 늘려서 실험해볼것 38350
-    train_files = train_files[76000::]
+    train_files = train_files[::]
 
     for npy_file in train_files:
 
@@ -60,31 +57,10 @@ def trainGenerator():
             one_npy_data[:, :, npy_colum] = y
 
         # 강수량 값
+        feature = one_npy_data[:, :, :my_col]
         target = one_npy_data[:, :, -1].reshape(40, 40, 1)
 
-        cutoff_labels = np.where(target < 0, -1, target)
-        feature = one_npy_data[:, :, :my_col]
-
-        # 강수량이 0보다 작은 것 제거
-        if cutoff_labels.sum() < 0:
-            continue
-
-        # 강수량이 0 < x < 1 인것 제거
-        if (cutoff_labels.sum() > 0) and (cutoff_labels.sum() < 1):
-            continue
-
-        # 강수량 데이터 분포를 알기위해
-        # 500 이상은 44150개의 데이터가 있음
-        #if cutoff_labels.sum() > 2000:
-        rain_list.append(cutoff_labels.sum())
-
-        # 강수량이 1000(바뀔 수 있음)이상인것 제거
-        # 다음할것은 dropout 수정
-        # 500이 최적
-        if cutoff_labels.sum() > 500:
-            continue
-
-        yield (feature, cutoff_labels)
+        yield (feature, target)
 
 
 # 데이터 파이프라인 만들기(데이터셋 API이용) - 메모리나 파일에 있는 데이터를 데이터 소스로 만듬
@@ -126,12 +102,12 @@ X_test = np.array(X_test)
 input_layer = Input((40, 40, my_col))
 # 처음 시작 뉴론 32개 말고 다른것으로 변경해 볼 것
 # 현재 32개가 최적
-#output_layer = build_model(input_layer, 32)
-output_layer = my_model(input_layer, 32)
+#output_layer = resnet_model(input_layer)
+output_layer = unet_model(input_layer, 32)
 
 model = Model(input_layer, output_layer)
 # 저장된 가중치 불러오기
-#model.load_weights(checkpoint_path)
+model.load_weights(checkpoint_path)
 
 
 #######################################################################
@@ -194,7 +170,8 @@ model.compile(loss="mae", optimizer=my_adam, metrics=[maeOverFscore_keras, fscor
 # epochs는 실험적으로 적용해 보기 반복을 얼마나 할 것인지
 # 500 이 최고 성능
 # 오버 피팅이 일어날 수 있으므로 학습 횟수의 최적화를 찾아야함
-model_history = model.fit(train_dataset, epochs=5, verbose=1, shuffle=True, callbacks=[cp_callback])
+#model_history = model.fit_sample()
+model_history = model.fit(train_dataset, epochs=150, verbose=1, shuffle=True, callbacks=[cp_callback])
 
 pred = model.predict(X_test)
 submission = pd.read_csv('Submission_form.csv')
