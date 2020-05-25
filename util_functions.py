@@ -2,9 +2,6 @@ import numpy as np
 from sklearn.metrics import f1_score
 import tensorflow as tf
 
-tf.set_random_seed(7)
-
-
 # 평균 절대 오차
 def mae(y_true, y_pred):
     y_true, y_pred = np.array(y_true), np.array(y_pred)
