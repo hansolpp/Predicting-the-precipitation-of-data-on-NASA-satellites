@@ -5,7 +5,7 @@ from tqdm import tqdm
 my_col = 10
 
 def trainGenerator():
-    train_path = './train/final_train'
+    train_path = './train/real_train'
     train_files = sorted(glob.glob(train_path + '/*'))
     train_files = train_files[::]
 
@@ -27,11 +27,35 @@ def trainGenerator():
         yield (feature, target)
 
 
+def train2_Generator():
+    my_train = []
+    rain_train = []
+    train_path = './train/real_train'
+    train_files = sorted(glob.glob(train_path + '/*'))
+    train_files = train_files[::]
+
+    for npy_file in tqdm(train_files):
+
+        one_npy_data = np.load(npy_file).astype('float32')
+
+        # 강수량 데이터는 건들지 않아야한다.
+        for npy_colum in range(14):
+            x = one_npy_data[:, :, npy_colum]
+            # 평균 뺀게 성능이 좋음
+            y = (x - x.mean())
+            #y = (x - x.mean()) / (x.std() + 1e-8)
+            one_npy_data[:, :, npy_colum] = y
+
+        my_train.append(one_npy_data)
+        rain_train.append(one_npy_data[:, :, -1].sum().astype(int))
+
+    return my_train, rain_train
+
+
 def testGenerator():
+    X_test = []
     test_path = './test/test'
     test_files = sorted(glob.glob(test_path + '/*'))
-
-    X_test = []
 
     for file in tqdm(test_files, desc='test'):
         data = np.load(file)
