@@ -19,7 +19,7 @@ my_col = 10
 rain_list = []
 
 # 구간 당 최대 데이터 갯수
-common_count = 400
+common_count = 800
 
 
 #################################################################
@@ -29,13 +29,12 @@ def make_npy(is_check):
     train_files = train_files[::]
 
     common_save_path = './my_train/'
-    refind_data = './refind_data/'
 
     # count_list 초기화
     count_list = [0 for _ in range(165)]
     # save_list 초기화
     save_list = [' ' for _ in range(165)]
-    '''
+
     for npy_file in tqdm(train_files):
 
         # 저장 해야하는 값
@@ -2044,13 +2043,13 @@ def make_npy(is_check):
 
     with open('./save_list.pickle', 'wb') as f:
         pickle.dump(save_list, f, pickle.HIGHEST_PROTOCOL)
-    '''
 
-    with open('./count_list.pickle', 'rb') as c:
-        count_list = pickle.load(c)
 
-    with open('./save_list.pickle', 'rb') as s:
-        save_list = pickle.load(s)
+    #with open('./count_list.pickle', 'rb') as c:
+    #    count_list = pickle.load(c)
+
+    #with open('./save_list.pickle', 'rb') as s:
+    #    save_list = pickle.load(s)
 
     # 데이터 부풀리기
     ###################################################
@@ -2134,6 +2133,59 @@ def make_npy(is_check):
                     rotate_270[:, :, i] = np.rot90(np.rot90(np.rot90(present_file[:, :, i])))
 
                 np.save(common_save_path + save_path + "new_rotate270_" + str(new_name), rotate_270)
+                count_list[idx] += 1
+                new_name += 1
+
+            # 90회전 - 반전
+            for file in tqdm(save_files):
+
+                if count_list[idx] == common_count:
+                    break
+
+                present_file = np.load(file)
+                rotate_90_T = np.zeros_like(present_file)
+
+                # col의 개수만큼
+                for i in range(15):
+                    rotate_90_T[:, :, i] = np.rot90(present_file[:, :, i]).T
+
+                np.save(common_save_path + save_path + "new_rotate90_T_" + str(new_name), rotate_90_T)
+                count_list[idx] += 1
+                new_name += 1
+
+            # 180 최전 - 반전
+            for file in tqdm(save_files):
+
+                if count_list[idx] == common_count:
+                    break
+
+                present_file = np.load(file)
+                rotate_180_T = np.zeros_like(present_file)
+
+
+                # col의 개수만큼
+                for i in range(15):
+                    rotate_180_T[:, :, i] = np.rot90(np.rot90(present_file[:, :, i])).T
+
+                np.save(common_save_path + save_path + "new_rotate180_T_" + str(new_name), rotate_180_T)
+                count_list[idx] += 1
+                new_name += 1
+
+            # 270 회전
+            for file in tqdm(save_files):
+
+                if count_list[idx] == common_count:
+                    break
+
+                present_file = np.load(file)
+                rotate_270_T = np.zeros_like(present_file)
+
+
+                # col의 개수만큼
+                for i in range(15):
+                    rotate_270_T[:, :, i] = np.rot90(np.rot90(np.rot90(present_file[:, :, i]))).T
+
+                np.save(common_save_path + save_path + "new_rotate270_T_" + str(new_name), rotate_270_T)
                 count_list[idx] += 1
                 new_name += 1
 
