@@ -118,7 +118,7 @@ train data에서 강수량 데이터를 측정하지 못한경우 값이 -9999�
 
 
 
-![image-20200521010744039](C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200521010744039.png)
+![image-20200521010744039](https://user-images.githubusercontent.com/57663398/82921926-ed743600-9fb3-11ea-9ef5-1883d6cfe0ae.png)
 
 (사진 수정 예정)
 
@@ -132,7 +132,7 @@ train data에서 강수량 데이터를 측정하지 못한경우 값이 -9999�
 
 
 
-![image-20200521012545355](C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200521012545355.png)
+![image-20200521012545355](https://user-images.githubusercontent.com/57663398/82921997-05e45080-9fb4-11ea-8b26-0d9427e36417.png)
 
 (사진 수정 예정)
 
@@ -142,7 +142,7 @@ train data에서 강수량 데이터를 측정하지 못한경우 값이 -9999�
 
 먼저 down sampling을 진행합니다. threshold를 400으로 정하고 나머지 데이터는 사용하지 않습니다.
 
-![image-20200521012545355](C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200521012545355.png)
+![image-20200521012545355](https://user-images.githubusercontent.com/57663398/82921997-05e45080-9fb4-11ea-8b26-0d9427e36417.png)
 
 (사진 수정 예정)
 
@@ -164,7 +164,7 @@ up sampling을 진행합니다. 정해진 threshold 보다 데이터가 부족�
 
 #### **3.4.1. U-net**
 
-![image-20200526231843253](C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200526231843253.png)
+![image-20200526231843253](https://user-images.githubusercontent.com/57663398/82922059-172d5d00-9fb4-11ea-941e-4ac9918c1f3f.png)
 
 (이미지 출처: https://www.researchgate.net/figure/Convolutional-neural-network-CNN-architecture-based-on-UNET-Ronneberger-et-al_fig2_323597886)
 
@@ -180,7 +180,7 @@ up sampling을 진행합니다. 정해진 threshold 보다 데이터가 부족�
 
   밸런스 한 데이터 일 때는 정확도를 사용 하는 것이 간단하면서 효과적입니다. 하지만 데이터 세트가 밸런스 하지 않은 데이터는 F1 스코어 를 사용하는 것이 좋은 모델을 고르는데 도움이 됩니다. 
 
-![image-20200526232113918](C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200526232113918.png)
+![image-20200526232113918](https://user-images.githubusercontent.com/57663398/82922114-26aca600-9fb4-11ea-9453-b590d2d62108.png)
 
   그래서 지도학습방법의 결과를 측정하기 위해 MAE/F1 score 를 이용합니다. 먼저 2*2 매트릭스인 오차행렬 (Confusion Matrix)을 이용하여 올바른 것과 올바르지 않은것을 구분합니다.  그후 두 경우를 참과 거짓으로 표현하며 TP(True Positive), TN(True Negative), FP(False Positive), FN(False Negative)으로 구분합니다.
 
@@ -192,7 +192,7 @@ up sampling을 진행합니다. 정해진 threshold 보다 데이터가 부족�
 
 성능측정과 오버피팅을 방지하기 위해 데이터를 나누고 여러 모델을 학습합니다.
 
-![image-20200526235354851](C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200526235354851.png)
+![image-20200526235354851](https://user-images.githubusercontent.com/57663398/82922155-31ffd180-9fb4-11ea-94ac-2fce99e5f17c.png)
 
 (이미지 출처: https://m.blog.naver.com/PostView.nhn?blogId=ckdgus1433&logNo=221599517834&proxyReferer=https:%2F%2Fwww.google.com%2F)
 
@@ -204,7 +204,7 @@ up sampling을 진행합니다. 정해진 threshold 보다 데이터가 부족�
 
 
 
-![image-20200526235435749](C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200526235435749.png)
+![image-20200526235435749](https://user-images.githubusercontent.com/57663398/82922338-6ffcf580-9fb4-11ea-8571-b93371973b7f.png)
 
 (이미지 출처: https://m.blog.naver.com/PostView.nhn?blogId=ckdgus1433&logNo=221599517834&proxyReferer=https:%2F%2Fwww.google.com%2F)
 
