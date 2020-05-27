@@ -1,6 +1,50 @@
 # **Predicting the precipitation of data on NASA satellites**
 
-  
+# 0. 목차
+
+연구의 필요성
+
+연구 목적
+
+연구
+
+​	데이터구성 요소
+
+​	데이터 시각화 (1 ~ 15 column)
+
+​		각 주파수의 밝기 온도(1 ~ 9 column)
+
+​		지표면 유형 (10 column)
+
+​		GMI, DPR 위도/경도 (11 ~ 14 column)
+
+​		강수량 - mm/h (15 column)  
+
+​	데이터 구성 및 처리
+
+​		누락 데이터 제거
+
+​		데이터불균형 완화
+
+​		스케일링
+
+​	분석방법
+
+​		U-net
+
+​		Optimizer
+
+​		평가지표
+
+​	교차검증
+
+연구결과
+
+참고논문 및 그림출처
+
+​		
+
+(참고논문과 이미지 출처는 하단에 기재되어 있습니다.)
 
 ![image-20200513130152223](https://user-images.githubusercontent.com/57663398/81794699-20471480-9546-11ea-8734-8c38de3c89cb.png)    
 
@@ -98,23 +142,27 @@
 
 ### 3.3. 데이터 구성 및 처리
 
+  
+
+데이터의 처리는 '데이터 구성 및 처리' 에서 제시된 순서대로 진행됩니다.
+
+  
+
 ##### 3.3.1. 누락데이터 제거 
 
-train data에서 강수량 데이터를 측정하지 못한경우 값이 -9999로 표현되어 있어 해당 데이터를 제거합니다.
+train data에서 강수량 데이터를 측정하지 못한경우 값이 -9999로 표현되어 있어 해당 데이터를 제거합니다. 총 76,345개에서 5908개의 데이터가 제거됩니다.
 
 
 
-##### 3.3.2. 데이터 불균형 제거
+##### 3.3.2. 데이터 불균형 완화
 
-강수량 column에 해당하는 데이터의 합의 분포는 다음과 같습니다. 50 mm 이하의 강수량을 가진 데이터가 50%에 달하며, 데이터가 편향되어 있는 불균형 현상을 보여주고 있습니다.
+누락데이터 제거를 거친 데이터의 강수량 column에 해당하는 데이터의 합의 분포는 다음과 같습니다. 50 mm 이하의 강수량을 가진 데이터가 50%에 달하며, 데이터가 편향되어 있는 불균형 현상을 보여주고 있습니다.
 
 ![image](https://user-images.githubusercontent.com/57663398/82136774-f9d9ef80-984b-11ea-9618-6e7377dbf15c.png)
 
   
 
-  데이터 불균형 현상을 해결하기 위해서 먼저 데이터를 구간별로 나누고자 하였습니다. 강수량 5 mm 단위로 구간을 정한후 데이터를 구간별 수집하였습니다. 하지만 위 데이터 분포에서 알 수 있듯이 강수량이 많은 데이터가 상대적으로 부족하기에, 단위를 10 mm, 50 mm, 100 mm, 400 mm, 500 mm로 구간별로 나누어 구간별 데이터를 적정량 확보하였습니다. 다음은 데이터 구간의 분포를 나타낸 것입니다. 총 165개의 구간이 있습니다.
-
- (0, (0, 5], (5, 10], (10, 15], (15, 20], ... ,(455, 465], (465, 475], ... , (2005, 2105], (2105, 2205], (2205, 2305], ... , (7005, ∞])
+  데이터 불균형 현상을 해결하기 위해서 먼저 데이터를 구간별로 나누고자 하였습니다. 강수량 5 mm 단위로 구간을 정한후 데이터를 구간별 수집하였습니다. 하지만 위 데이터 분포에서 알 수 있듯이 강수량이 많은 데이터가 상대적으로 부족하기에, 강수량의 크기가 커질수록 단위를 10 mm, 50 mm, 100 mm, 400 mm, 500 mm로 늘려 구간별로 나누어 데이터를 적정량 확보하였습니다. 다음은 데이터 구간의 분포를 나타낸 것입니다. 총 165개의 구간을 확인할 수 있습니다.  (0, (0, 5], (5, 10], (10, 15], (15, 20], ... ,(455, 465], (465, 475], ... , (2005, 2105], (2105, 2205], (2205, 2305], ... , (7005, ∞])
 
 
 
@@ -148,7 +196,7 @@ train data에서 강수량 데이터를 측정하지 못한경우 값이 -9999�
 
 
 
-up sampling을 진행합니다. 정해진 threshold 보다 데이터가 부족한 구간에서 다음과 같이 추가시킵니다. 이미지를 90, 180, 270도 회전 및 대칭 회전하여 데이터를 부풀립니다.
+up sampling을 진행합니다. 정해진 threshold 보다 데이터가 부족한 구간에서 다음과 같이 추가시킵니다. 이미지를 90, 180, 270도 회전 및 대칭 회전하여 데이터를 부풀립니다. 이미지 up/ down sampling을 통해 총 165 * 400 = 66,000개의 데이터를 수집하였습니다.
 
 
 
@@ -158,6 +206,10 @@ up sampling을 진행합니다. 정해진 threshold 보다 데이터가 부족�
 
 ​	
 
+##### 3.3.3. 스케일링
+
+  스케일링은 자료 집합에 적용되는 전치리 과정으로, 모든 자료에 선형 변환을 적용하여 전체 자료의 분포를 평균 0, 분산 1이 되도록 만드는 과정입니다. 스케일링은 자료의 overflow와 underflow를 방지하고 독립 변수의 공분산 행렬의 조건수(condition number)를 감소시켜 최적화 과정에서 안정성 및 수렴 속도를 향상시킵니다.
+
   
 
 ### **3.4. 분석 방법**
@@ -166,13 +218,29 @@ up sampling을 진행합니다. 정해진 threshold 보다 데이터가 부족�
 
 ![image-20200526231843253](https://user-images.githubusercontent.com/57663398/82922059-172d5d00-9fb4-11ea-941e-4ac9918c1f3f.png)
 
-(이미지 출처: https://www.researchgate.net/figure/Convolutional-neural-network-CNN-architecture-based-on-UNET-Ronneberger-et-al_fig2_323597886)
-
   U-Net은 Biomedical 분야에서 이미지 분할(Image Segmentation)을 목적으로 제안된 End-to-End 방식의 Fully-Convolutional Network 기반 모델입니다. U-Net은 FCNs보다 확장된 개념의 Up-sampling과 Skip Architecture를 적용한 모델을 제안하고 있습니다. 결과적으로 U-Net의 구조는 아주 적은 양의 학습 데이터만으로 Data Augmentation을 활용하여 여러 Biomedical Image Segmentation 문제에서 우수한 성능을 보여주어 현재 연구에 적용하려 합니다.
 
   
 
-#### **3.4.2. 평가지표**
+#### **3.4.2. Optimizer**
+
+adam and Radam
+
+
+
+#### 3.4.2. Scheduler
+
+optim.lr_scheduler.CosineAnnealingLR
+
+
+
+#### **3.4.3. Hyper parameter**
+
+
+
+
+
+#### **3.4.4. 평가지표**
 
 ![image-20200513174740897](https://user-images.githubusercontent.com/57663398/81796079-e70fa400-9547-11ea-9d17-73d825e98f19.png)
 
@@ -194,10 +262,6 @@ up sampling을 진행합니다. 정해진 threshold 보다 데이터가 부족�
 
 ![image-20200526235354851](https://user-images.githubusercontent.com/57663398/82922155-31ffd180-9fb4-11ea-94ac-2fce99e5f17c.png)
 
-(이미지 출처: https://m.blog.naver.com/PostView.nhn?blogId=ckdgus1433&logNo=221599517834&proxyReferer=https:%2F%2Fwww.google.com%2F)
-
-
-
   현재 실시되어지고 있는 모델은 k-fold cross validation입니다. k에는 전체 데이터 셋을 몇 등분할지 결정할 수있습니다.  k = 5로 설정하여 진행하고 있습니다.
 
 
@@ -205,10 +269,6 @@ up sampling을 진행합니다. 정해진 threshold 보다 데이터가 부족�
 
 
 ![image-20200526235435749](https://user-images.githubusercontent.com/57663398/82922338-6ffcf580-9fb4-11ea-8571-b93371973b7f.png)
-
-(이미지 출처: https://m.blog.naver.com/PostView.nhn?blogId=ckdgus1433&logNo=221599517834&proxyReferer=https:%2F%2Fwww.google.com%2F)
-
-
 
   강수량을 label로 하여 구분되는 데이터 셋을 균등하게 설정합니다. (아직 미적용)
 
@@ -228,7 +288,7 @@ up sampling을 진행합니다. 정해진 threshold 보다 데이터가 부족�
 
 ​    
 
-# x. 참고논문
+# x. 참고논문 및 그림출처
 
 관련논문 : (홍성택, 박병돈, 김종립, 정회경. (2018). 강수량계 종류별 성능시험 및 불확도 분석. 한국정보통신학회논문지, 22(7), 935-942)
 
@@ -236,7 +296,15 @@ up sampling을 진행합니다. 정해진 threshold 보다 데이터가 부족�
 
 (관련 논문 : U-Net: Convolutional Networks for Biomedical Image Segmentation Olaf Ronneberger, Philipp Fischer, Thomas Brox Medical Image Computing and Computer-Assisted Intervention (MICCAI), Springer, LNCS, Vol.9351: 234--241, 2015)
 
-(관련논문 : F1 스코어를 이용한 한국어 감정지수 연구)
+
+
+
+
+U-net picture :  https://www.researchgate.net/figure/Convolutional-neural-network-CNN-architecture-based-on-UNET-Ronneberger-et-al_fig2_323597886
+
+k-fold cross validation picture :  https://m.blog.naver.com/PostView.nhn?blogId=ckdgus1433&logNo=221599517834&proxyReferer=https:%2F%2Fwww.google.com%2F
+
+stratified k-fold cross validation picture : https://m.blog.naver.com/PostView.nhn?blogId=ckdgus1433&logNo=221599517834&proxyReferer=https:%2F%2Fwww.google.com%2F
 
 
 
