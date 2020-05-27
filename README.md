@@ -142,17 +142,17 @@
 
 ### 3.3. 데이터 구성 및 처리
 
-  
+​    
 
 데이터의 처리는 '데이터 구성 및 처리' 에서 제시된 순서대로 진행됩니다.
 
-  
+​    
 
 ##### 3.3.1. 누락데이터 제거 
 
 train data에서 강수량 데이터를 측정하지 못한경우 값이 -9999로 표현되어 있어 해당 데이터를 제거합니다. 총 76,345개에서 5908개의 데이터가 제거됩니다.
 
-
+​    
 
 ##### 3.3.2. 데이터 불균형 완화
 
@@ -160,45 +160,35 @@ train data에서 강수량 데이터를 측정하지 못한경우 값이 -9999�
 
 ![image](https://user-images.githubusercontent.com/57663398/82136774-f9d9ef80-984b-11ea-9618-6e7377dbf15c.png)
 
-  
-
   데이터 불균형 현상을 해결하기 위해서 먼저 데이터를 구간별로 나누고자 하였습니다. 강수량 5 mm 단위로 구간을 정한후 데이터를 구간별 수집하였습니다. 하지만 위 데이터 분포에서 알 수 있듯이 강수량이 많은 데이터가 상대적으로 부족하기에, 강수량의 크기가 커질수록 단위를 10 mm, 50 mm, 100 mm, 400 mm, 500 mm로 늘려 구간별로 나누어 데이터를 적정량 확보하였습니다. 다음은 데이터 구간의 분포를 나타낸 것입니다. 총 165개의 구간을 확인할 수 있습니다.  (0, (0, 5], (5, 10], (10, 15], (15, 20], ... ,(455, 465], (465, 475], ... , (2005, 2105], (2105, 2205], (2205, 2305], ... , (7005, ∞])
 
+​      
 
+![image-20200527173221402](https://user-images.githubusercontent.com/57663398/83002260-ce26e880-a047-11ea-9f06-47313c077d14.png)
 
-![image-20200521010744039](https://user-images.githubusercontent.com/57663398/82921926-ed743600-9fb3-11ea-9ef5-1883d6cfe0ae.png)
+위의 그림은 구간으로 나누어서 수집한 데이터의 분포입니다. 앞서 언급한바와 같이 불균형을 시각적으로 확인할 수 있습니다. ( y축은 index * 1000 단위이며, x축은 총 165개로 나눈 구간의 index를 의미합니다.)
 
-(사진 수정 예정)
-
-
-
-위의 그림은 구간으로 나누어서 수집한 데이터의 분포입니다. 앞서 언급한바와 같이 불균형을 시각적으로 확인할 수 있습니다. 
-
-
+​    
 
 다음으로, 데이터 불균형을 맞추기 위해 up sampling과 down sampling을 진행합니다. 정해진 threshold보다 많은 데이터를 가진 범위는 down sampling을 실시하며 threshold보다 적은 데이터를 가진 범위는 up sampling을 실시합니다.
 
+​    
 
+​    
 
-![image-20200521012545355](https://user-images.githubusercontent.com/57663398/82921997-05e45080-9fb4-11ea-8b26-0d9427e36417.png)
+![image-20200527180839250](https://user-images.githubusercontent.com/57663398/83002308-dc750480-a047-11ea-9dc6-189bfa69448f.png)
 
-(사진 수정 예정)
+먼저 down sampling을 진행합니다. threshold를 400개로 정하고 그 이상의 데이터는 사용하지 않습니다.
 
+  
 
+  
 
+![image-20200527183428815](https://user-images.githubusercontent.com/57663398/83003065-c287f180-a048-11ea-959c-afcaef9eacb2.png)
 
+up sampling을 진행합니다. 정해진 threshold 보다 데이터가 부족한 구간에서 다음과 같이 추가시킵니다. 이미지를 90, 180, 270도 회전 및 대칭 회전하여 데이터를 부풀리며, 기존 이미지에서 최대 8배까지 부풀릴 수 있습니다.  (이미지 up/ down sampling을 통해 총 165 * 400 = 66,000개의 데이터를 수집하였습니다.)
 
-먼저 down sampling을 진행합니다. threshold를 400으로 정하고 나머지 데이터는 사용하지 않습니다.
-
-![image-20200521012545355](https://user-images.githubusercontent.com/57663398/82921997-05e45080-9fb4-11ea-8b26-0d9427e36417.png)
-
-(사진 수정 예정)
-
-
-
-up sampling을 진행합니다. 정해진 threshold 보다 데이터가 부족한 구간에서 다음과 같이 추가시킵니다. 이미지를 90, 180, 270도 회전 및 대칭 회전하여 데이터를 부풀립니다. 이미지 up/ down sampling을 통해 총 165 * 400 = 66,000개의 데이터를 수집하였습니다.
-
-
+  
 
 (데이터 회전한 사진도 넣으면 좋음)
 
@@ -220,25 +210,27 @@ up sampling을 진행합니다. 정해진 threshold 보다 데이터가 부족�
 
   U-Net은 Biomedical 분야에서 이미지 분할(Image Segmentation)을 목적으로 제안된 End-to-End 방식의 Fully-Convolutional Network 기반 모델입니다. U-Net은 FCNs보다 확장된 개념의 Up-sampling과 Skip Architecture를 적용한 모델을 제안하고 있습니다. 결과적으로 U-Net의 구조는 아주 적은 양의 학습 데이터만으로 Data Augmentation을 활용하여 여러 Biomedical Image Segmentation 문제에서 우수한 성능을 보여주어 현재 연구에 적용하려 합니다.
 
-  
+​    
 
 #### **3.4.2. Optimizer**
 
-adam and Radam
+adam or Radam or ( RAdam + LARS + LookAHead )
 
-
+  
 
 #### 3.4.2. Scheduler
 
+![image-20200527145151529](C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200527145151529.png)
+
 optim.lr_scheduler.CosineAnnealingLR
 
-
+  
 
 #### **3.4.3. Hyper parameter**
 
+   
 
-
-
+​    
 
 #### **3.4.4. 평가지표**
 
