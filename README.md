@@ -270,9 +270,9 @@ optim.lr_scheduler.CosineAnnealingLR
 
 # 4. 연구 결과
 
-![image-20200529115857805](C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200529115857805.png)     
+![image-20200529115857805](https://user-images.githubusercontent.com/57663398/83216513-6934d500-a1a4-11ea-9aaa-c1ee853a9d93.png)     
 
-![image-20200529115952635](C:\Users\hansol\AppData\Roaming\Typora\typora-user-images\image-20200529115952635.png)
+![image-20200529115952635](https://user-images.githubusercontent.com/57663398/83216531-75b92d80-a1a4-11ea-87b1-195f4040732c.png)
 
 ​    
 
