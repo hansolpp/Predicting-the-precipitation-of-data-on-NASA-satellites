@@ -2,7 +2,8 @@ import glob
 import string
 from os.path import isfile
 import random
-import seaborn
+import seaborn as sns
+import pandas as pd
 
 import numpy as np
 import warnings
@@ -19,7 +20,7 @@ my_col = 10
 rain_list = []
 
 # 구간 당 최대 데이터 갯수
-common_count = 800
+common_count = 400
 
 
 #################################################################
@@ -34,7 +35,7 @@ def make_npy(is_check):
     count_list = [0 for _ in range(165)]
     # save_list 초기화
     save_list = [' ' for _ in range(165)]
-
+    '''
     for npy_file in tqdm(train_files):
 
         # 저장 해야하는 값
@@ -2032,24 +2033,31 @@ def make_npy(is_check):
                 else:
                     np.save(common_save_path + save_path + real_file_name, one_npy_data)
             count_list[164] += 1
+    '''
 
 
-    x = range(0, 165)
-    plt.plot(x, count_list)
-    plt.show()
+    #with open('./count_list.pickle', 'wb') as f:
+    #    pickle.dump(count_list, f, pickle.HIGHEST_PROTOCOL)
 
-    with open('./count_list.pickle', 'wb') as f:
-        pickle.dump(count_list, f, pickle.HIGHEST_PROTOCOL)
-
-    with open('./save_list.pickle', 'wb') as f:
-        pickle.dump(save_list, f, pickle.HIGHEST_PROTOCOL)
+    #with open('./save_list.pickle', 'wb') as f:
+    #    pickle.dump(save_list, f, pickle.HIGHEST_PROTOCOL)
 
 
-    #with open('./count_list.pickle', 'rb') as c:
-    #    count_list = pickle.load(c)
+    with open('./count_list.pickle', 'rb') as c:
+       count_list = pickle.load(c)
 
-    #with open('./save_list.pickle', 'rb') as s:
-    #    save_list = pickle.load(s)
+    with open('./save_list.pickle', 'rb') as s:
+        save_list = pickle.load(s)
+
+
+    #x = range(0, 165)
+    #x = pd.DataFrame(x)
+    #df = pd.DataFrame(count_list)
+    #ax = sns.distplot(df, kde=False)
+    #ax.set_xticklabels([0, 0, 24, 48, 72, 96, 120, 144, 165])
+    #plt.plot(x, count_list)
+    #plt.show()
+
 
     # 데이터 부풀리기
     ###################################################
@@ -2194,6 +2202,9 @@ def make_npy(is_check):
 
     x = range(0, 165)
     plt.plot(x, count_list)
+    #df = pd.DataFrame(count_list)
+    #sns.distplot(df, kde=False, rug=True)
+    #plt.title("구간별 데이터 분포")
     plt.show()
 
 

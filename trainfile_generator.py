@@ -1,5 +1,6 @@
 import glob
 import numpy as np
+from sklearn.preprocessing import StandardScaler
 from tqdm import tqdm
 
 my_col = 10
@@ -14,6 +15,7 @@ def trainGenerator():
         one_npy_data = np.load(npy_file)
 
         # 평균 뺀게 성능이 좋음
+        # 정확한 스케일러 적용할것 - scikit-learn
         for npy_colum in range(my_col):
             x = one_npy_data[:, :, npy_colum]
             y = (x - x.mean())
@@ -39,11 +41,13 @@ def train2_Generator():
         one_npy_data = np.load(npy_file).astype('float32')
 
         # 강수량 데이터는 건들지 않아야한다.
+        # 정확한 스케일러 적용할것 - scikit-learn - 완료
+        scaler = StandardScaler()
+
         for npy_colum in range(14):
             x = one_npy_data[:, :, npy_colum]
-            # 평균 뺀게 성능이 좋음
-            y = (x - x.mean())
-            #y = (x - x.mean()) / (x.std() + 1e-8)
+            scaler.fit(x)
+            y = scaler.transform(x)
             one_npy_data[:, :, npy_colum] = y
 
         my_train.append(one_npy_data)
@@ -63,8 +67,8 @@ def testGenerator():
         # 평균 뺀게 성능이 좋음
         for npy_colum in range(my_col):
             x = data[:, :, npy_colum]
-            y = (x - x.mean())
-            #y = (x - x.mean()) / (x.std() + 1e-8)
+            #y = (x - x.mean())
+            y = (x - x.mean()) / (x.std() + 1e-8)
             data[:, :, npy_colum] = y
 
         X_test.append(data[:, :, :my_col])
