@@ -216,7 +216,7 @@ up sampling을 진행합니다. 정해진 threshold 보다 데이터가 부족�
 
 #### **3.4.2. Optimizer**
 
-adam or Radam or ( RAdam + LARS + LookAHead )
+RAdam + LookAHead (확정)
 
   
 
@@ -230,9 +230,15 @@ optim.lr_scheduler.CosineAnnealingLR
 
 #### **3.4.3. Hyper parameter**
 
-   
+batch size : 128
 
-​    
+![image-20200529115857805](https://user-images.githubusercontent.com/57663398/83216513-6934d500-a1a4-11ea-9aaa-c1ee853a9d93.png)
+
+​    ![image-20200529115952635](https://user-images.githubusercontent.com/57663398/83216531-75b92d80-a1a4-11ea-87b1-195f4040732c.png)
+
+
+
+batch size: 256
 
 #### **3.4.4. 평가지표**
 

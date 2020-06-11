@@ -2,7 +2,7 @@
 from keras.activations import relu
 from tensorflow.keras.layers import Dense, Conv2D, Dropout, Conv2DTranspose, MaxPooling2D, BatchNormalization, \
     Activation, concatenate, GlobalAveragePooling2D
-from tensorflow_core.python.keras import Input
+#from tensorflow_core.python.keras import Input
 
 
 def resnet_model(input_layer):
