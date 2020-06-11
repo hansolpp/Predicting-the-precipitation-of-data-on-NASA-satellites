@@ -2,13 +2,14 @@ import glob
 import pandas as pd
 import numpy as np
 from keras.optimizers import adam
-from tensorflow_core.python.keras import Input
-from tensorflow_core.python.keras.models import load_model
+#from tensorflow_core.python.keras import Input
+#from tensorflow_core.python.keras.models import load_model
+from tensorflow.python.keras import Input
+from tensorflow.python.keras.saving.save import load_model
 from tqdm import tqdm
 import tensorflow as tf
 from sklearn.metrics import f1_score
 from tensorflow.keras import Model
-from sklearn.metrics import f1_score
 
 from Models import resnet_model, unet_model, train2_unet_model, train2_unet2_model
 from trainfile_generator import trainGenerator, testGenerator, train2_Generator
@@ -18,13 +19,15 @@ from sklearn.model_selection import train_test_split, StratifiedKFold
 from sklearn.model_selection import KFold
 from keras_radam import RAdam
 from keras_radam.training import RAdamOptimizer
+import tensorflow_addons as tfa
 import os
-import pickle
+from scipy import stats
 os.environ['TF_KERAS'] = '1'
+os.environ['KERAS_BACKEND'] = 'theano'
 
 
 # 교차검증을 위한 train code
-def train_model(x_data, y_data, rain_data, k):
+def train_model(x_data, y_data, k):
     k_fold = KFold(n_splits=k, shuffle=True, random_state=0)
     #stratified_k_fold = StratifiedKFold(n_splits=k, shuffle=True, random_state=0)
 
@@ -39,12 +42,18 @@ def train_model(x_data, y_data, rain_data, k):
         model = Model(input_layer, output_layer)
 
         callbacks_list = [
-            # 스케쥴러?
-            #tf.keras.callbacks.ReduceLROnPlateau(
-            #    monitor='val_loss',
-            #    patience=3,
-            #    factor=0.8
-            #),
+            #tf.keras.callbacks.TensorBoard(
+            #    log_dir='./log/plugins/profile/20',
+            #    histogram_freq=0,  # How often to log histogram visualizations
+            #    embeddings_freq=0,  # How often to log embedding visualizations
+            #    update_freq='epoch'),  # How often to write logs (default: once per epoch)
+
+            tf.keras.callbacks.ReduceLROnPlateau(
+                monitor='loss',
+                patience=3,
+                # new_lr = lr * factor
+                factor=0.8
+            ),
 
             tf.keras.callbacks.ModelCheckpoint(
                 filepath='./models/model' + str(model_number) + '.h5',
@@ -54,11 +63,18 @@ def train_model(x_data, y_data, rain_data, k):
                 verbose=1
             )
         ]
+        RADAM = tfa.optimizers.RectifiedAdam()
+        ranger = tfa.optimizers.Lookahead(RADAM, sync_period=10, slow_step_size=0.5)
+        #RADAM = RAdam(total_steps=10000, warmup_proportion=0.1, min_lr=1e-5)
+        #ADAM = tf.keras.optimizers.Adam(learning_rate=0.0005, beta_1=0.9, beta_2=0.999, epsilon=1e-08,amsgrad=True, name='Adam')
 
-        model.compile(loss='mae', optimizer=RAdamOptimizer(learning_rate=1e-3)
-                        , metrics=[score, maeOverFscore_keras, fscore_keras])
+        # 저장된 가중치 불러오기
+        model.load_weights(filepath='./models/model' + str(model_number) + '.h5')
+
+        model.compile(loss='mae', optimizer=ranger, metrics=[score, fscore_keras])
+
         # stratified_k_fold 사용시 batch_size는 최소 128에서 256이 되어야한다.
-        model.fit(x_train, y_train, epochs=50, batch_size=128, shuffle=True, validation_data=(x_val, y_val),
+        model.fit(x_train, y_train, epochs=1, batch_size=128, validation_data=(x_val, y_val),
                   callbacks=callbacks_list)
 
         model_number += 1
@@ -71,19 +87,22 @@ if __name__ == "__main__":
     models = []
 
     # 학습데이터 생성
-    train, rain = train2_Generator()
+    train = train2_Generator()
     train = np.array(train)
-    rain = np.array(rain)
     x_train = train[:, :, :, :10]
     y_train = train[:, :, :, 14].reshape(-1, 40, 40, 1)
 
     # train set, test set 분리
     # 학습데이터를 더 많이 사용하기 위해 7 : 3 비율을 유지하지 않습니다
     # 10%
-    x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=0.02, random_state=0)
+    x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=0.1, random_state=0)
+
+    del train
 
     # 교차검증 학습
-    train_model(x_train, y_train, rain, k)
+    train_model(x_train, y_train, k)
+
+    del x_train, y_train
 
     # 학습된 모델 저장
     for n in range(k):
@@ -98,3 +117,50 @@ if __name__ == "__main__":
 
     pred = sum(preds) / len(preds)
     print(mae_over_fscore(y_test, pred))
+
+
+    print("here is rain comparision")
+    # 강수량 비교( pred와 real의 강수량 차의 기본 통계량)
+    rain_diff =[]
+    preds.append(models[-1].predict(x_test))
+    for i in range(len(y_test)):
+        result = abs(preds[-1][i].sum() - y_test[i].sum())
+        rain_diff.append(result)
+        #print(result)
+
+    print(stats.describe(np.array(rain_diff)))
+
+
+    hit_rate_count_5_0 = 0
+    hit_rate_count_1_0 = 0
+    hit_rate_count_0_5 = 0
+    hit_rate_count_0_1 = 0
+
+    y_true, y_pred = np.array(y_test), np.array(preds[-1])
+
+    y_true = y_true.reshape(1, -1)[0]
+
+    y_pred = y_pred.reshape(1, -1)[0]
+
+    diff = abs(y_pred - y_true)
+
+    for i in tqdm(diff):
+        if i <= 5:
+            hit_rate_count_5_0 += 1
+
+        if i <= 1:
+            hit_rate_count_1_0 += 1
+
+        if i <= 0.5:
+            hit_rate_count_0_5 += 1
+
+        if i <= 0.1:
+            hit_rate_count_0_1 += 1
+
+    print(hit_rate_count_5_0/len(diff))
+    print(hit_rate_count_1_0/len(diff))
+    print(hit_rate_count_0_5/len(diff))
+    print(hit_rate_count_0_1/len(diff))
+
+
+
