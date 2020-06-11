@@ -31,7 +31,30 @@ def trainGenerator():
 
 def train2_Generator():
     my_train = []
-    rain_train = []
+    train_path = './train/real_train'
+    train_files = sorted(glob.glob(train_path + '/*'))
+    train_files = train_files[55000::]
+
+    for npy_file in tqdm(train_files):
+
+        one_npy_data = np.load(npy_file).astype('float32')
+
+        # 강수량 데이터는 건들지 않아야한다.
+        # 정확한 스케일러 적용할것 - scikit-learn - 완료
+        my_scaler = StandardScaler()
+
+        for npy_colum in range(14):
+            x = one_npy_data[:, :, npy_colum]
+            my_scaler.fit(x)
+            y = my_scaler.transform(x)
+            one_npy_data[:, :, npy_colum] = y
+
+        my_train.append(one_npy_data)
+
+    return my_train
+
+
+def train2_yield_Generator():
     train_path = './train/real_train'
     train_files = sorted(glob.glob(train_path + '/*'))
     train_files = train_files[::]
@@ -42,18 +65,18 @@ def train2_Generator():
 
         # 강수량 데이터는 건들지 않아야한다.
         # 정확한 스케일러 적용할것 - scikit-learn - 완료
-        scaler = StandardScaler()
+        my_scaler = StandardScaler()
 
         for npy_colum in range(14):
             x = one_npy_data[:, :, npy_colum]
-            scaler.fit(x)
-            y = scaler.transform(x)
+            my_scaler.fit(x)
+            y = my_scaler.transform(x)
             one_npy_data[:, :, npy_colum] = y
 
-        my_train.append(one_npy_data)
-        rain_train.append(one_npy_data[:, :, -1].sum().astype(int))
+        feature = one_npy_data[:, :, :my_col]
+        target = one_npy_data[:, :, -1].reshape(40, 40, 1)
 
-    return my_train, rain_train
+        yield (feature, target)
 
 
 def testGenerator():
